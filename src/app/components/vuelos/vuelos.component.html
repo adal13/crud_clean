@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-center">Lista de Vuelos</h2>
+    <button class="btn btn-primary">Registrar Vuelo</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Código Vuelo</th>
+          <th>Tipo</th>
+          <th>Origen</th>
+          <th>Destino</th>
+          <th>Fecha Salida</th>
+          <th>Estatus</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vuelo of vuelos">
+          <td>{{ vuelo.codigoVuelo }}</td>
+          <td>{{ vuelo.avion.tipo }}</td>
+          <td>{{ vuelo.origen.nombre }}</td>
+          <td>{{ vuelo.destino.nombre }}</td>
+          <td>{{ vuelo.fechaSalida | date }}</td>
+          <td [ngClass]="{'text-success' : vuelo.idEstatus === 1, 'text-danger': vuelo.idEstatus === 2}">
+            {{ vuelo.idEstatus === 1 ? 'Disponible' : 'No Disponible' }}
+          </td>
+          <td>
+            <button class="btn btn-warning" (click)="editarVuelo(vuelo)">Editar</button>
+            <button class="btn btn-danger" (click)="eliminarVuelo(vuelo.codigoVuelo)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

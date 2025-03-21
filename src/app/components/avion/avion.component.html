@@ -1,0 +1,89 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Tabla de Aviones</h2>
+    <button class="btn btn-primary" (click)="toggleForm()">Agregar Avión</button>
+  </div>
+
+  <div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID Avión</th>
+        <th>Num. Registro</th>
+        <th>Tipo</th>
+        <th>Código Modelo</th>
+        <th>Capacidad</th>
+        <th>Fecha Primer Vuelo</th>
+        <th>ID Estatus</th>
+        <th>ID Aerolínea</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let avion of avion">
+        <td>{{ avion.id }}</td>
+        <td>{{ avion.numeroRegistro }}</td>
+        <td>{{ avion.tipo }}</td>
+        <td>{{ avion.codigoModelo }}</td>
+        <td>{{ avion.capacidad }}</td>
+        <td>{{ avion.fechaPrimerVuelo | date }}</td>
+        <td [ngClass]="{'text-success' : avion.idEstatus === 1, 'text-danger': avion.idEstatus === 2}">
+          {{ avion.idEstatus === 1 ? 'Disponible' : 'No Disponible' }}
+        </td>
+        <td>{{ avion.aerolinea.nombre || 'No asignada' }}</td>
+        <td>
+          <button class="btn btn-warning" (click)="editarAvion(avion)">Editar</button>
+          <button class="btn btn-danger"  (click)="avion.id ? eliminarAvion(avion.id) : null ">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<!-- Comienza el formulario -->
+<div *ngIf="showForm" style="margin-top: 20px;">
+  <h3>{{textoModal}}</h3>
+  <form [formGroup]="avionForm" (ngSubmit)="onSubmit()">
+    <input hidden formControlName="id" readonly/>
+    <div class="form-group">
+      <label for="numeroRegistro">Numero de Registro</label>
+      <input id="numeroRegistro" class="form-control" formControlName="numeroRegistro"
+        pattern="^\S.*$" placeholder="Numero de Registro"/>
+    </div>
+    <div class="form-group">
+      <label for="tipo">Tipo</label>
+      <input id="tipo" class="form-control" formControlName="tipo"
+        pattern="^\S.*$" placeholder="Codigo"/>
+    </div>
+    <div class="form-group">
+      <label for="codigoModelo">codigoModelo</label>
+      <input id="codigoModelo" class="form-control" formControlName="codigoModelo"
+       placeholder="codigoModelo"/>
+    </div>
+    <div class="form-group">
+      <label for="capacidad">capacidad</label>
+      <input id="capacidad" class="form-control" formControlName="capacidad"
+         placeholder="capacidad"/>
+    </div>
+    <div class="form-group">
+      <label for="fechaPrimerVuelo">fechaPrimerVuelo</label>
+      <input id="fechaPrimerVuelo" class="form-control" type="date" formControlName="fechaPrimerVuelo"
+         placeholder="fechaPrimerVuelo"/>
+    </div>
+    <div class="form-group">
+      <label for="estatus">Estatus</label>
+      <select name="estatus" id="estatus" class="form-control" formControlName="idEstatus">
+        <option value="1">Disponible</option>
+        <option value="2">No Disponible</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="aerolinea">aerolinea</label>
+      <input id="aerolinea" class="form-control" formControlName="aerolinea"
+         placeholder="aerolinea"/>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="avionForm.invalid" style="margin-top: 20px;">
+      Guardar
+    </button>
+  </form>
+</div>
+      </div>
+</div>

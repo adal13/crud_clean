@@ -1,0 +1,74 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-center">Lista de Aerolíneas</h2>
+    <button (click)="toggleForm()" class="btn btn-primary">Registrar Aerolínea</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Nombre</th>
+          <th>IATA</th>
+          <th>Estatus</th>
+          <th>País</th>
+          <th>Fecha Fundación</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let aerolinea of aerolineas; let i = index">
+          <td>{{ aerolinea.nombre }}</td>
+          <td>{{ aerolinea.iata }}</td>
+          <td [ngClass]="{'text-success' : aerolinea.estatus === 1, 'text-danger': aerolinea.estatus === 2}">
+            {{ aerolinea.estatus === 1 ? 'Disponible' : 'No Disponible' }}
+          </td>
+          <td>{{ aerolinea.pais }}</td>
+          <td>{{ aerolinea.fechaFundacion }}</td>
+          <td>
+            <button class="btn btn-warning" (click)="editarAerolinea(aerolinea)">Editar</button>
+            <button class="btn btn-danger" (click)="aerolinea.id ? eliminarAerolinea(aerolinea.id) : null">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+<!-- Comienza el formulario -->
+    <div *ngIf="showForm" style="margin-top: 20px;">
+      <h3>{{textoModal}}</h3>
+      <form [formGroup]="aerolineaForm" (ngSubmit)="onSubmit()">
+        <input hidden formControlName="id" readonly/>
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" class="form-control" formControlName="nombre"
+            pattern="^\S.*$" placeholder="Nombre"/>
+        </div>
+        <div class="form-group">
+          <label for="iata">IATA</label>
+          <input id="iata" class="form-control" formControlName="iata"
+            pattern="^\S.*$" placeholder="IATA"/>
+        </div>
+        <div class="form-group">
+          <label for="estatus">Estatus</label>
+          <select name="estatus" id="estatus" class="form-control" formControlName="estatus">
+            <option value="1">Disponible</option>
+            <option value="2">No Disponible</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pais">Pais</label>
+          <input id="pais" class="form-control" formControlName="pais"
+            pattern="^\S.*$" placeholder="Pais"/>
+        </div>
+        <div class="form-group">
+          <label for="fechaFundacion">Nombre</label>
+          <input id="fechaFundacion" class="form-control" formControlName="fechaFundacion"
+            type="date" placeholder="Fecha de Fundacion"/>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="aerolineaForm.invalid" style="margin-top: 20px;">
+          Guardar
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
