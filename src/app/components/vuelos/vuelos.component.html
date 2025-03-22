@@ -24,12 +24,24 @@
           <td>{{ vuelo.origen.nombre }}</td>
           <td>{{ vuelo.destino.nombre }}</td>
           <td>{{ vuelo.fechaSalida | date }}</td>
-          <td [ngClass]="{'text-success' : vuelo.idEstatus === 1, 'text-danger': vuelo.idEstatus === 2}">
-            {{ vuelo.idEstatus === 1 ? 'Disponible' : 'No Disponible' }}
+          <td
+            [ngClass]="{
+              'text-success': vuelo.idEstatus === 1,
+              'text-danger': vuelo.idEstatus === 2
+            }"
+          >
+            {{ vuelo.idEstatus === 1 ? "Disponible" : "No Disponible" }}
           </td>
           <td>
-            <button class="btn btn-warning" (click)="editarVuelo(vuelo)">Editar</button>
-            <button class="btn btn-danger" (click)="eliminarVuelo(vuelo.codigoVuelo)">Eliminar</button>
+            <button class="btn btn-warning" (click)="editarVuelo(vuelo)">
+              Editar
+            </button>
+            <button
+              class="btn btn-danger"
+              (click)="eliminarVuelo(vuelo.codigoVuelo)"
+            >
+              Eliminar
+            </button>
           </td>
         </tr>
       </tbody>
