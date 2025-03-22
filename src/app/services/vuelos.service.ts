@@ -3,6 +3,7 @@ import { environment } from '../environments/environments';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vuelo } from '../models/vuelo.models';
+import { VueloDTO } from '../models/vueloDTO.models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,12 @@ export class VuelosService {
     return this.http.get<Vuelo[]>(this.apiUrl);
   }
 
-    createVuelo(vuelo: Vuelo): Observable<Vuelo>{
-      return this.http.post<Vuelo>(`${this.apiUrl}avion-dto`, vuelo);
+    createVuelo(vueloDTO: VueloDTO): Observable<VueloDTO>{
+      return this.http.post<VueloDTO>(`${this.apiUrl}vuelo-dto`, vueloDTO);
     }
 
-    updateVuelo(vuelo:Vuelo): Observable<Vuelo>{
-      return this.http.put<Vuelo>(`${this.apiUrl}${vuelo.id}`,vuelo);
+    updateVuelo(vueloDTO:VueloDTO): Observable<VueloDTO>{
+      return this.http.put<VueloDTO>(`${this.apiUrl}${vueloDTO.id}`,vueloDTO);
     }
 
     deleteVuelo(idVuelo:number):Observable<Vuelo>{

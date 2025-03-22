@@ -16,7 +16,7 @@ export class AeropuertosService {
   }
 
    createAeropuerto(aeropuerto: Aeropuerto): Observable<Aeropuerto>{
-      return this.http.post<Aeropuerto>(`${this.apiUrl}avion-dto`, aeropuerto);
+      return this.http.post<Aeropuerto>(`${this.apiUrl}`, aeropuerto);
     }
 
     updateAeropuerto(aeropuerto:Aeropuerto): Observable<Aeropuerto>{

@@ -3,6 +3,7 @@ import { VuelosService } from '../../services/vuelos.service';
 import { Vuelo } from '../../models/vuelo.models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { VueloDTO } from '../../models/vueloDTO.models';
 
 @Component({
   selector: 'app-vuelos',
@@ -11,12 +12,12 @@ import Swal from 'sweetalert2';
   styleUrl: './vuelos.component.css',
 })
 export class VuelosComponent {
-  vuelos: Vuelo[] = [];
+  vueloDTO: VueloDTO[] = [];
   vueloForm: FormGroup;
   showForm: boolean = false;
   textoModal: string = 'Nuevo Vuelo';
   isEditMode: boolean = false;
-  selectedVuelo: Vuelo | null = null;
+  selectedVuelo: VueloDTO | null = null;
 
   constructor(
     private vueloService: VuelosService,
@@ -40,14 +41,14 @@ export class VuelosComponent {
     this.vueloService.getVuelo().subscribe({
       next: (vuelo) => {
         console.log('Esto es vuelo', vuelo);
-        this.vuelos = vuelo;
+        this.vueloDTO = this.vueloDTO;
       },
     });
   }
 
   toggleForm(): void {
     this.showForm = !this.showForm;
-    this.textoModal = 'Nuevo Avion';
+    this.textoModal = 'Nuevo Vuelos';
     this.isEditMode = false;
     this.selectedVuelo = null;
     this.vueloForm.reset();
@@ -57,19 +58,19 @@ export class VuelosComponent {
       return;
     }
 
-    //const avionData: Avion = this.avionForm.value;
+    const vueloData: VueloDTO = this.vueloForm.value;
 
-    const vueloData: Vuelo = {
-      ...this.vueloForm.value,
-      aerolinea: this.vueloForm.value.aerolinea, // Asegurar que solo envíe el ID
-    };
+    // const vueloData: Vuelo = {
+    //   ...this.vueloForm.value,
+    //   aerolinea: this.vueloForm.value.aerolinea, // Asegurar que solo envíe el ID
+    // };
 
     if (this.isEditMode) {
       this.vueloService.updateVuelo(vueloData).subscribe({
         next: (updateVuelo) => {
-          const index = this.vuelos.findIndex((a) => a.id === vueloData.id);
+          const index = this.vueloDTO.findIndex((a) => a.id === vueloData.id);
           if (index !== -1) {
-            this.vuelos[index] = updateVuelo;
+            this.vueloDTO[index] = updateVuelo;
           }
           Swal.fire({
             title: 'Avion ' + updateVuelo.codigoVuelo + ' Actualizada',
@@ -81,6 +82,9 @@ export class VuelosComponent {
           this.mostrarErrores(error);
         },
       });
+
+
+
     } else {
       this.vueloService.createVuelo(vueloData).subscribe({
         next: (newAvion) => {
@@ -89,7 +93,7 @@ export class VuelosComponent {
             text: 'El Avion fue creada exitosamente',
             icon: 'success',
           });
-          this.vuelos.push(newAvion);
+          this.vueloDTO.push(newAvion);
         },
         error: (error) => {
           this.mostrarErrores(error);
@@ -117,27 +121,27 @@ export class VuelosComponent {
     }
   }
 
-  editarVuelo(vuelo: Vuelo) {
-    this.selectedVuelo = vuelo;
-    this.textoModal = 'Editando Avion ' + vuelo.codigoVuelo;
+  editarVuelo(vueloDTO: VueloDTO) {
+    this.selectedVuelo = vueloDTO;
+    this.textoModal = 'Editando Vuelo ' + vueloDTO.codigoVuelo;
     this.isEditMode = true;
     this.showForm = true;
 
     this.vueloForm.patchValue({
-      id: vuelo.id,
-      codigoVuelo: vuelo.codigoVuelo,
-      idAvion: vuelo.avion,
-      idOrigen: vuelo.origen,
-      idDestino: vuelo.destino,
-      fechaSalida: vuelo.fechaSalida,
-      idEstatus: vuelo.idEstatus,
+      id: vueloDTO.id,
+      codigoVuelo: vueloDTO.codigoVuelo,
+      idAvion: vueloDTO.idAvion,
+      idOrigen: vueloDTO.idOrigen,
+      idDestino: vueloDTO.idDestino,
+      fechaSalida: vueloDTO.fechaSalida,
+      idEstatus: vueloDTO.idEstatus,
     });
   }
 
   eliminarVuelo(codigo_vuelo: number) {
     Swal.fire({
-      title: 'Eliminar Avion',
-      text: '¿Estas seguro que deseas elminar Avion?',
+      title: 'Eliminar Vuelo',
+      text: '¿Estas seguro que deseas elminar Vuelo?',
       icon: 'question',
       showConfirmButton: true,
       showCancelButton: true,
@@ -145,10 +149,10 @@ export class VuelosComponent {
       if (resp.isConfirmed) {
         this.vueloService.deleteVuelo(codigo_vuelo).subscribe({
           next: (deleteAeropuerto) => {
-            this.vuelos = this.vuelos.filter((a) => a.id !== codigo_vuelo);
+            this.vueloDTO = this.vueloDTO.filter((a) => a.id !== codigo_vuelo);
             Swal.fire({
-              title: 'Avion Eliminada',
-              text: 'El Avion fue eliminada exitosamente',
+              title: 'Vuelo Eliminada',
+              text: 'El Vuelo fue eliminada exitosamente',
               icon: 'success',
             });
           },

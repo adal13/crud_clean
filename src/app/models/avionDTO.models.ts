@@ -1,4 +1,4 @@
-export interface Avion{
+export interface AvionDTO{
   id: number|null;
   numeroRegistro:number;
   tipo:string;
@@ -6,6 +6,5 @@ export interface Avion{
   capacidad:number;
   fechaPrimerVuelo:string;
   idEstatus:number;
-  idAerolinea:number
-
+  idAerolinea:number | null
 }

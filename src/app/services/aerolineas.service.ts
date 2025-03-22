@@ -16,7 +16,7 @@ export class AerolineasService {
   }
 
   createAerolinea(aerolinea: Aerolineas): Observable<Aerolineas>{
-    return this.http.post<Aerolineas>(`${this.apiUrl}avion-dto`, aerolinea);
+    return this.http.post<Aerolineas>(`${this.apiUrl}`, aerolinea);
   }
 
   updateAerolinea(aerolinea:Aerolineas): Observable<Aerolineas>{

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';;
 import { Observable } from 'rxjs';
 import { Aeropuerto } from '../models/aeropuerto.models';
 import { Avion } from '../models/avion.models';
+import { AvionDTO } from '../models/avionDTO.models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,8 @@ export class AvionesService {
     return this.http.get<Avion[]>(this.apiUrl);
   }
 
-  createAvion(avion: Avion): Observable<Avion>{
-    return this.http.post<Avion>(`${this.apiUrl}avion-dto`, avion);
+  createAvion(avionDTO: AvionDTO): Observable<Avion>{
+    return this.http.post<Avion>(`${this.apiUrl}avion-dto`, avionDTO);
   }
 
   updateAvion(avion:Avion): Observable<Avion>{
